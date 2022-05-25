@@ -1,6 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:my_mind/home/title_widget.dart';
+import 'title_widget.dart';
 
 class MonthlyReportChart extends StatefulWidget {
   const MonthlyReportChart({Key? key}) : super(key: key);
