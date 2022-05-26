@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../utils/screen_config.dart';
+
 class Indicator extends StatelessWidget {
   final List<Color> colors;
   final String name;
@@ -16,41 +18,44 @@ class Indicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double _screenRatio = SizeConfig.screenRatio;
+
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Row(
         children: [
           Container(
-            width: 4,
-            height: 24,
-            margin: const EdgeInsets.only(top: 5),
+            width: _screenRatio * 4,
+            height: _screenRatio * 24,
+            margin: EdgeInsets.only(top: _screenRatio * 5),
             decoration: BoxDecoration(
                 shape: isSquare ? BoxShape.rectangle : BoxShape.circle,
-                borderRadius: const BorderRadius.all(Radius.circular(2)),
+                borderRadius:
+                    BorderRadius.all(Radius.circular(_screenRatio * 2)),
                 gradient: LinearGradient(
                   colors: colors,
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                 )),
           ),
-          const SizedBox(
-            width: 8,
+          SizedBox(
+            width: _screenRatio * 8,
           ),
           Text(
             name,
-            style: const TextStyle(
+            style: TextStyle(
                 fontFamily: 'PingFangTC-Semibold',
-                fontSize: 16,
+                fontSize: _screenRatio * 16,
                 color: Colors.white),
           )
         ],
       ),
       Padding(
-          padding: const EdgeInsets.only(left: 12),
+          padding: EdgeInsets.only(left: _screenRatio * 12),
           child: Text(
             '${value.toString()}%',
             style: TextStyle(
                 fontFamily: 'PingFangTC-Regular',
-                fontSize: 14,
+                fontSize: _screenRatio * 14,
                 color: Colors.white.withOpacity(0.65)),
           ))
     ]);

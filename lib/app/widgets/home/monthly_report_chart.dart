@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import '../../utils/screen_config.dart';
 import 'title_widget.dart';
 
 class MonthlyReportChart extends StatefulWidget {
@@ -10,6 +11,8 @@ class MonthlyReportChart extends StatefulWidget {
 }
 
 class _MonthlyReportChartState extends State<MonthlyReportChart> {
+  double get _screenRatio => SizeConfig.screenRatio;
+
   List<Color> gradientColors = [
     const Color.fromRGBO(10, 207, 254, 1),
     const Color.fromRGBO(10, 207, 254, 0.5),
@@ -18,10 +21,16 @@ class _MonthlyReportChartState extends State<MonthlyReportChart> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 343.0,
-      height: 340.0,
-      margin: const EdgeInsets.only(right: 16, left: 16),
-      padding: const EdgeInsets.only(right: 16, left: 18, top: 24, bottom: 12),
+      //width: screenWidth * 0.9146,
+      width: _screenRatio * 343.0,
+      height: _screenRatio * 316.0,
+      //height: screenWidth * 0.8426,
+      margin: EdgeInsets.symmetric(horizontal: _screenRatio * 16),
+      padding: EdgeInsets.only(
+          right: _screenRatio * 16,
+          left: _screenRatio * 18,
+          top: _screenRatio * 24,
+          bottom: _screenRatio * 12),
       child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
         // 標題
         const TitleWidget(
@@ -29,8 +38,8 @@ class _MonthlyReportChartState extends State<MonthlyReportChart> {
           date: '2021-08-07 ~ 2021-09-25',
           list: ['銷售數據'],
         ),
-        const SizedBox(
-          height: 8,
+        SizedBox(
+          height: _screenRatio * 8,
         ),
         // 數據類型
         Row(children: [
@@ -41,20 +50,20 @@ class _MonthlyReportChartState extends State<MonthlyReportChart> {
         const Spacer(),
         // 折線圖
         SizedBox(
-            height: 140,
+            height: _screenRatio * 140,
             child: LineChart(
               mainData(),
             ))
       ]),
-      decoration: const BoxDecoration(
-          image: DecorationImage(
+      decoration: BoxDecoration(
+          image: const DecorationImage(
               image: AssetImage("assets/images/chart_bg.png"),
               fit: BoxFit.cover),
           boxShadow: [
             BoxShadow(
-              color: Color.fromRGBO(0, 0, 0, 0.2),
-              blurRadius: 16,
-              offset: Offset(0, 8), // Shadow position
+              color: const Color.fromRGBO(0, 0, 0, 0.2),
+              blurRadius: _screenRatio * 16,
+              offset: Offset(0, _screenRatio * 8), // Shadow position
             )
           ]),
     );
@@ -62,74 +71,78 @@ class _MonthlyReportChartState extends State<MonthlyReportChart> {
 
   Widget saleTypeWidgets(String title, String value, bool clicked) {
     return Container(
-        width: 151,
-        height: 76,
-        child: Column(
-          //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
+        width: _screenRatio * 151,
+        //height: 76,
+        child: AspectRatio(
+            aspectRatio: 151 / 76,
+            child: Column(
+              //mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  width: 4,
-                  height: 16,
-                  margin: const EdgeInsets.only(top: 5),
-                  decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(2)),
-                      color: Color.fromRGBO(255, 192, 43, 1)),
-                ),
-                const SizedBox(
-                  width: 8,
-                ),
-                SizedBox(
-                  height: 16,
-                  child: Center(
-                    child: Text(
-                      title,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        fontFamily: 'PingFangTC-Regular',
-                        color: Color.fromRGBO(255, 255, 255, 1),
-                        fontSize: 12,
+                Row(
+                  children: [
+                    Container(
+                      width: _screenRatio * 4,
+                      height: _screenRatio * 16,
+                      margin: EdgeInsets.only(top: _screenRatio * 5),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(
+                              Radius.circular(_screenRatio * 2)),
+                          color: const Color.fromRGBO(255, 192, 43, 1)),
+                    ),
+                    SizedBox(
+                      width: _screenRatio * 8,
+                    ),
+                    SizedBox(
+                      height: _screenRatio * 16,
+                      child: Center(
+                        child: Text(
+                          title,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontFamily: 'PingFangTC-Regular',
+                            color: const Color.fromRGBO(255, 255, 255, 1),
+                            fontSize: _screenRatio * 12,
+                          ),
+                        ),
                       ),
                     ),
-                  ),
+                  ],
+                ),
+                SizedBox(
+                  height: _screenRatio * 33,
+                  child: Row(children: [
+                    Text(
+                      value,
+                      maxLines: 1,
+                      style: TextStyle(
+                        fontFamily: 'PingFangTC-Semibold',
+                        color: const Color.fromRGBO(255, 255, 255, 1),
+                        fontSize: _screenRatio * 24,
+                      ),
+                    ),
+                    if (!clicked)
+                      SizedBox(
+                        width: _screenRatio * 4,
+                      ),
+                    if (!clicked)
+                      Text(
+                        '元',
+                        style: TextStyle(
+                          fontFamily: 'PingFangTC-Semibold',
+                          color: const Color.fromRGBO(255, 255, 255, 1),
+                          fontSize: _screenRatio * 14,
+                        ),
+                      )
+                  ]),
                 ),
               ],
-            ),
-            const SizedBox(
-              height: 4,
-            ),
-            SizedBox(
-              height: 33,
-              child: Row(children: [
-                Text(
-                  value,
-                  maxLines: 1,
-                  style: const TextStyle(
-                    fontFamily: 'PingFangTC-Semibold',
-                    color: Color.fromRGBO(255, 255, 255, 1),
-                    fontSize: 24,
-                  ),
-                ),
-                if (!clicked)
-                  const SizedBox(
-                    width: 4,
-                  ),
-                if (!clicked)
-                  const Text(
-                    '元',
-                    style: TextStyle(
-                      fontFamily: 'PingFangTC-Semibold',
-                      color: Color.fromRGBO(255, 255, 255, 1),
-                      fontSize: 14,
-                    ),
-                  )
-              ]),
-            ),
-          ],
-        ),
-        padding: const EdgeInsets.only(right: 16, left: 16, top: 5, bottom: 5),
+            )),
+        padding: EdgeInsets.only(
+            right: _screenRatio * 16,
+            left: _screenRatio * 16,
+            top: _screenRatio * 5,
+            bottom: _screenRatio * 5),
         decoration: BoxDecoration(
           image: DecorationImage(
               image: AssetImage(clicked
@@ -139,33 +152,34 @@ class _MonthlyReportChartState extends State<MonthlyReportChart> {
   }
 
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
-    const style = TextStyle(
-      color: Color.fromRGBO(255, 255, 255, 0.65),
-      fontSize: 12,
+    final style = TextStyle(
+      color: const Color.fromRGBO(255, 255, 255, 0.65),
+      fontSize: _screenRatio * 12,
     );
     Widget text;
     switch (value.toInt()) {
       case 0:
-        text = const Text('10-25', style: style);
+        text = Text('10-25', style: style);
         break;
       case 7:
-        text = const Text('11-01', style: style);
+        text = Text('11-01', style: style);
         break;
       case 14:
-        text = const Text('11-08', style: style);
+        text = Text('11-08', style: style);
         break;
       case 21:
-        text = const Text('11-15', style: style);
+        text = Text('11-15', style: style);
         break;
       case 28:
-        text = const Text('11-30', style: style);
+        text = Text('11-30', style: style);
         break;
       default:
-        text = const Text('', style: style);
+        text = Text('', style: style);
         break;
     }
 
-    return Padding(child: text, padding: const EdgeInsets.only(top: 8.0));
+    return Padding(
+        child: text, padding: EdgeInsets.only(top: _screenRatio * 8.0));
   }
 
   LineChartData mainData() {
@@ -173,8 +187,8 @@ class _MonthlyReportChartState extends State<MonthlyReportChart> {
       gridData: FlGridData(
         show: true,
         drawVerticalLine: true,
-        horizontalInterval: 1,
-        verticalInterval: 7,
+        horizontalInterval: _screenRatio * 1,
+        verticalInterval: _screenRatio * 7,
         getDrawingHorizontalLine: (value) {
           return FlLine(
             color: const Color(0xff37434d),
@@ -185,13 +199,14 @@ class _MonthlyReportChartState extends State<MonthlyReportChart> {
           return VerticalLine(
             x: 5.7,
             color: const Color.fromRGBO(255, 255, 255, 0.1),
-            strokeWidth: 2,
+            strokeWidth: _screenRatio * 2,
             dashArray: [5, 5],
             label: VerticalLineLabel(
               show: true,
               alignment: Alignment.topRight,
-              padding: const EdgeInsets.only(left: 10, top: 5),
-              style: const TextStyle(color: Colors.black, fontSize: 9),
+              padding: EdgeInsets.only(
+                  left: _screenRatio * 10, top: _screenRatio * 5),
+              style: TextStyle(color: Colors.black, fontSize: _screenRatio * 9),
               labelResolver: (line) => 'V: ${line.x}',
             ),
           );
@@ -214,7 +229,7 @@ class _MonthlyReportChartState extends State<MonthlyReportChart> {
         bottomTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
-            reservedSize: 30,
+            reservedSize: _screenRatio * 30,
             interval: 1,
             getTitlesWidget: bottomTitleWidgets,
           ),
@@ -223,14 +238,15 @@ class _MonthlyReportChartState extends State<MonthlyReportChart> {
           sideTitles: SideTitles(
             showTitles: false,
             interval: 1,
-            reservedSize: 42,
+            reservedSize: _screenRatio * 42,
           ),
         ),
       ),
       borderData: FlBorderData(
           show: true,
-          border: const Border(
-            left: BorderSide(width: 1.0, color: Color(0x800acffe)),
+          border: Border(
+            left: BorderSide(
+                width: _screenRatio * 1.0, color: const Color(0x800acffe)),
           )),
       minX: 0,
       maxX: 30,
@@ -257,7 +273,7 @@ class _MonthlyReportChartState extends State<MonthlyReportChart> {
             end: Alignment.bottomCenter,
           ),
           */
-          barWidth: 5,
+          barWidth: _screenRatio * 5,
           isStrokeCapRound: true,
           dotData: FlDotData(
             show: false,

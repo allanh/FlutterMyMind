@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
 import 'package:my_mind/app/utils/colors.dart';
 import '../../../domain/entities/gross_profit.dart';
+import '../../utils/screen_config.dart';
 import 'title_widget.dart';
 
 import 'indicator.dart';
@@ -20,14 +21,18 @@ class _GrossProfitPieChartState extends State<GrossProfitPieChart> {
       widget.grossProfits?.take(sectionSize).toList() ?? [];
 
   final sectionSize = 6;
+  double get _screenRatio => SizeConfig.screenRatio;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        width: 335.0,
-        height: 498.0,
-        margin: const EdgeInsets.only(right: 16, left: 16),
-        padding: const EdgeInsets.only(right: 16, left: 16, top: 24),
+        width: _screenRatio * 335.0,
+        height: _screenRatio * 498.0,
+        margin: EdgeInsets.symmetric(horizontal: _screenRatio * 16),
+        padding: EdgeInsets.only(
+            right: _screenRatio * 16,
+            left: _screenRatio * 16,
+            top: _screenRatio * 24),
         child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
           // 標題
           const TitleWidget(
@@ -35,60 +40,61 @@ class _GrossProfitPieChartState extends State<GrossProfitPieChart> {
             date: '2021-08-07 ~ 2021-09-25',
             list: ['通路商店'],
           ),
-          const SizedBox(
-            height: 46,
+          SizedBox(
+            height: _screenRatio * 46,
           ),
-          // 折線圖
+          // 圓餅圖
           Container(
-            width: 200,
-            height: 200,
+            width: _screenRatio * 200,
+            height: _screenRatio * 200,
             child: Stack(children: [
               _grossProfitWidget(_grossProfits),
-              const Center(
+              Center(
                 child: Text('通路商店',
                     style: TextStyle(
                       fontFamily: 'PingFangTC-Semibold',
-                      color: Color.fromRGBO(255, 255, 255, 1),
-                      fontSize: 18,
+                      color: const Color.fromRGBO(255, 255, 255, 1),
+                      fontSize: _screenRatio * 18,
                     )),
               )
             ]),
-            decoration: const BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(16)),
-              image: DecorationImage(
+            decoration: BoxDecoration(
+              borderRadius:
+                  BorderRadius.all(Radius.circular(_screenRatio * 16)),
+              image: const DecorationImage(
                   image: AssetImage("assets/images/pie_chart_bg.png"),
                   fit: BoxFit.cover),
             ),
           ),
 
-          const SizedBox(height: 24),
+          SizedBox(height: _screenRatio * 24),
           SizedBox(
-            height: 150,
+            height: _screenRatio * 150,
             child: Padding(
-                padding: const EdgeInsets.only(left: 8),
+                padding: EdgeInsets.only(left: _screenRatio * 8),
                 child: _storeGridView(_grossProfits)),
           ),
         ]),
-        decoration: const BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(16)),
-            image: DecorationImage(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(_screenRatio * 16)),
+            image: const DecorationImage(
                 image: AssetImage("assets/images/pie_chart_card_bg.png"),
                 fit: BoxFit.cover),
             boxShadow: [
               BoxShadow(
-                color: Color.fromRGBO(0, 0, 0, 0.2),
-                blurRadius: 16,
-                offset: Offset(0, 8), // Shadow position
+                color: const Color.fromRGBO(0, 0, 0, 0.2),
+                blurRadius: _screenRatio * 16,
+                offset: Offset(0, _screenRatio * 8), // Shadow position
               )
             ]));
   }
 
   Widget _storeGridView(List<GrossProfit> list) => (list.isNotEmpty)
       ? GridView.builder(
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
-            crossAxisSpacing: 10,
-            mainAxisExtent: 45,
+            crossAxisSpacing: _screenRatio * 10,
+            mainAxisExtent: _screenRatio * 50,
           ),
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
@@ -124,14 +130,14 @@ class _GrossProfitPieChartState extends State<GrossProfitPieChart> {
                 show: false,
               ),
               sectionsSpace: 0,
-              centerSpaceRadius: 65,
+              centerSpaceRadius: _screenRatio * 65,
               sections: _pieSections(list)),
         )
       : const Text('empty');
 
   List<PieChartSectionData> _pieSections(List<GrossProfit> list) {
     List<PieChartSectionData> datas = [];
-    const radius = 20.0;
+    final radius = _screenRatio * 20.0;
 
     list.take(6).forEachIndexed((index, element) {
       //final isTouched = index == touchedIndex;

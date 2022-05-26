@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:my_mind/app/routes.dart';
+import 'app/utils/screen_config.dart';
 import 'login_state.dart';
 import 'package:provider/provider.dart';
 

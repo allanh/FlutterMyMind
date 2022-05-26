@@ -3,6 +3,7 @@ import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:my_mind/domain/entities/gross_profit.dart';
 import '../../../data/repositories/data_home_repository.dart';
 
+import '../../utils/screen_config.dart';
 import '../../widgets/home/gross_profit_pie_chart.dart';
 import '../../widgets/home/monthly_report_chart.dart';
 import './home_controller.dart';
@@ -25,8 +26,11 @@ class _HomePageState extends ViewState<HomePage, HomeController> {
   Widget get view {
     return ControlledWidgetBuilder<HomeController>(
       builder: (context, controller) {
+        SizeConfig().init(context);
+
         if (controller.storeGrossProfits != null) {
           List<GrossProfit> storeGrossProfits = controller.storeGrossProfits!;
+          double _screenRatio = SizeConfig.screenRatio;
 
           return Scaffold(
             key: globalKey,
@@ -41,13 +45,13 @@ class _HomePageState extends ViewState<HomePage, HomeController> {
                   child: ListView(
                       //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        const SizedBox(height: 24),
+                        SizedBox(height: _screenRatio * 24),
                         const MonthlyReportChart(),
-                        const SizedBox(height: 16),
+                        SizedBox(height: _screenRatio * 16),
                         GrossProfitPieChart(
                           grossProfits: storeGrossProfits,
                         ),
-                        const SizedBox(height: 24),
+                        SizedBox(height: _screenRatio * 24),
                       ]),
                 )),
           );
