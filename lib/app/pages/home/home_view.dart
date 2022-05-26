@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
+import 'package:my_mind/domain/entities/gross_profit.dart';
 import '../../../data/repositories/data_home_repository.dart';
 
 import '../../widgets/home/gross_profit_pie_chart.dart';
@@ -25,7 +26,7 @@ class _HomePageState extends ViewState<HomePage, HomeController> {
     return ControlledWidgetBuilder<HomeController>(
       builder: (context, controller) {
         if (controller.storeGrossProfits != null) {
-          final storeGrossProfits = controller.storeGrossProfits!;
+          List<GrossProfit> storeGrossProfits = controller.storeGrossProfits!;
 
           return Scaffold(
             key: globalKey,
@@ -39,12 +40,14 @@ class _HomePageState extends ViewState<HomePage, HomeController> {
                 child: SafeArea(
                   child: ListView(
                       //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: const [
-                        SizedBox(height: 24),
-                        MonthlyReportChart(),
-                        SizedBox(height: 16),
-                        GrossProfitPieChart(),
-                        SizedBox(height: 24),
+                      children: [
+                        const SizedBox(height: 24),
+                        const MonthlyReportChart(),
+                        const SizedBox(height: 16),
+                        GrossProfitPieChart(
+                          grossProfits: storeGrossProfits,
+                        ),
+                        const SizedBox(height: 24),
                       ]),
                 )),
           );
